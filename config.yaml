@@ -1,0 +1,18 @@
+Displays:
+  MONITOR\CMN14C9\{4d36e96e-e325-11ce-bfc1-08002be10318}\0001:
+    Brightness:
+    - - 0
+      - 46
+    - - 100
+      - 100
+  MONITOR\HPN3462\{4d36e96e-e325-11ce-bfc1-08002be10318}\0006:
+    Brightness:
+    - - 0
+      - 0
+    - - 100
+      - 100
+    Contrast:
+    - - 0
+      - 0
+    - - 100
+      - 100
