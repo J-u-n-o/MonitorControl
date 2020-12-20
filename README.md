@@ -11,10 +11,11 @@ To prevent brightness differences there is a per monitor calibrarion for brightn
 
 
 Note:
-Not all monitors support changing contrast, at least access was not present for my laptop monitor.
-It requires an external monitor having DDC/CI support and have this enabled.
-It detects windows being restored from sleep/hibernation, though some/at lot of rough edges here.
-Unless being paid I will extend features and bugs
+- Not all monitors support changing contrast, at least access was not present for my laptop monitor.
+- It requires an external monitor having DDC/CI support and have this enabled.
+- It detects windows being restored from sleep/hibernation, though some/at lot of rough edges here.
+- Unless being paid I will extend features and bugs
+- Known windows handles issue. Mostlikely related to sleep/hibernation/redetecting monitors.
 
 However feel free to check and fix bugs.
 
