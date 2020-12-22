@@ -20,6 +20,7 @@ Note:
 - It detects windows being restored from sleep/hibernation, though some/at lot of rough edges here.
 - Unless being paid I will extend features and bugs in my own pace
 - Known windows handles issue. Mostlikely related to sleep/hibernation/redetecting monitors.
+- Tested in white/default mode, but actively using dark mode...
 
 However feel free to check and fix bugs.
 
