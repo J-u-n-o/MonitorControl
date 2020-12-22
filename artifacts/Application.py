@@ -114,6 +114,7 @@ class Application(SingleApplication.SingleApplication):
         self.observe_timer = None
         self.monitors = None
         self.identifyWindows = []
+        self.gdiCount = 0
 
     def create_start_monitors(self):
 
@@ -140,6 +141,7 @@ class Application(SingleApplication.SingleApplication):
             # print("{} was deactivated =?= {}".format(obj, self.window))
             if (obj == self.window) and (len(self.identifyWindows) == 0):
                 print("{} was deactivated == {}".format(obj, self.window))
+                self.window.setupUpdate()
                 self.window.hide()
 
         if event.type() == QtCore.QEvent.WindowActivate:
@@ -149,6 +151,7 @@ class Application(SingleApplication.SingleApplication):
 
 
 # https://stackoverflow.com/questions/58927021/how-to-display-image-on-secondary-monitor-in-full-screen
+
 
     def position_next_to_tray(self):
 
@@ -274,7 +277,10 @@ class Application(SingleApplication.SingleApplication):
         pythoncom.CoInitialize()
         self.monitors.tick()
 
-        print(f"{time.ctime()}, {Handles.getGDIcount(os.getpid())}")
+        gdiCount = Handles.getGDIcount(os.getpid())
+        if (self.gdiCount != gdiCount):
+            print(f"{time.ctime()}, GDI count: {Handles.getGDIcount(os.getpid())}")
+            self.gdiCount = gdiCount
 
     def closeEvent(self, event):
         print(" quit")
