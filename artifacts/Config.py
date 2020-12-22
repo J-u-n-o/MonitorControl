@@ -77,7 +77,7 @@ class Calibrations():
             data = yaml.dump(self.getYaml(), f)
 
     def loadYaml(self):
-        if os.path.isfile('filename.txt'):
+        if os.path.isfile(Calibrations.config_file):
             with open(Calibrations.config_file) as f:
                 data = yaml.load(f, Loader=yaml.FullLoader)
 
