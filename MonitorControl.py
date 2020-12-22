@@ -1,5 +1,5 @@
 from artifacts import ExtendPythonPath
-from artifacts import GotoParentFolder
+#from artifacts import GotoParentFolder
 
 import winreg
 import pythoncom

@@ -432,6 +432,9 @@ class Window(QWidget):
         self.setup()
         self.feature_setup_widget.set_infos(self.app.monitors)
         self.feature_setup_widget.init()
+
+        self.app.list_monitors()
+
         QApplication.restoreOverrideCursor()
 
     def position_show(self):

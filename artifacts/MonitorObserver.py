@@ -83,6 +83,9 @@ class Monitors:
     def add_display(self, display):
         calibration = self._calibrations.get(display._device_name)
 
+        print("Display {}".format(display._device_name))
+        print("Display calibration {}".format(calibration.scalers))
+
         if (display.contrast is not None):
             calibration.ensure(Display.Display.CONTRAST)
 

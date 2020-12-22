@@ -152,7 +152,6 @@ class Application(SingleApplication.SingleApplication):
 
 # https://stackoverflow.com/questions/58927021/how-to-display-image-on-secondary-monitor-in-full-screen
 
-
     def position_next_to_tray(self):
 
         screen = self.primaryScreen()
@@ -294,12 +293,13 @@ class Application(SingleApplication.SingleApplication):
 
     def monitors_stop(self):
         print("Application monitors_stop")
-        if (self.window is not None):
-            self.window.hide()
         if (self.observe_timer is not None):
             self.observe_timer.cancel()
+        if (self.window is not None):
+            self.window.hide()
         if (self.monitors is not None):
             self.monitors.remove_displays()
+        print("Application monitors_stopped")
 
     def detect(self):
         print("Application detect")
@@ -310,6 +310,18 @@ class Application(SingleApplication.SingleApplication):
             self.monitors.remove_displays()
 
         self.monitors_start()
+
+    def list_monitors(self):
+
+        print('\n\nmonitors')
+
+        index = 0
+        monitor = self.monitors.get_monitor(index)
+        while (monitor is not None):
+            print('   {}'.format(TrayWindow.tab_name(index, monitor._monitor.info)))
+            index += 1
+            monitor = self.monitors.get_monitor(index)
+        print('\n\n')
 
     def monitors_start(self):
         print("Application monitors_start")
@@ -375,10 +387,10 @@ class WinEventFilter(QAbstractNativeEventFilter):
                 print(" PBT_APMPOWERSTATUSCHANGE")
             elif msg.wParam == 0x0012:  # PBT_APMRESUMEAUTOMATIC
                 print("  PBT_APMRESUMEAUTOMATIC")
-                self.app.monitors_start()
+                self.app.window.refreshPressed()
             elif msg.wParam == 0x0007:  # PBT_APMRESUMESUSPEND
                 print("  PBT_APMRESUMESUSPEND")
-                self.app.monitors_start()
+                self.app.window.refreshPressed()
             elif msg.wParam == 0x0004:  # PBT_APMSUSPEND
                 print("  PBT_APMSUSPEND")
                 self.app.monitors_stop()
@@ -390,7 +402,7 @@ class WinEventFilter(QAbstractNativeEventFilter):
         elif msg.message == 0x007E:
             print("{} {} Message1 Received! WM_DISPLAYCHANGE".format(self.name,
                                                                      now.strftime("%H:%M:%S")))
-            self.app.monitors_start()
+            self.app.window.refreshPressed()
         elif msg.message == 0x0016:
             print("{} {} Message1 Received! WM_ENDSESSION".format(self.name,
                                                                   now.strftime("%H:%M:%S")))
