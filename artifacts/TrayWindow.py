@@ -4,14 +4,14 @@ import ctypes
 from pyqtgraph.Qt import QtCore, QtGui
 import sys
 
-from PySide2.QtCore import QAbstractNativeEventFilter
-from PySide2 import (QtCore)
-from PySide2 import (QtGui)
-from PySide2 import (QtWidgets)
+from PySide2.QtCore import QAbstractNativeEventFilter, Qt
+from PySide2 import QtCore
+from PySide2 import QtGui
+from PySide2 import QtWidgets
 
 # from PySide2.QtCore import (Qt, QSettings, pyqtSlot)
 
-from PySide2.QtWidgets import QGridLayout, QTabWidget, QPushButton, QVBoxLayout, QHBoxLayout, QWidget, QSlider, QLabel, QSizePolicy
+from PySide2.QtWidgets import QGridLayout, QTabWidget, QPushButton, QVBoxLayout, QHBoxLayout, QWidget, QSlider, QLabel, QSizePolicy, QApplication
 
 import qdarkstyle
 import os
@@ -347,7 +347,7 @@ class Window(QWidget):
         print("About")
         self.setupUpdate()
 
-        self.setMinimumSize(200, 100)
+        self.setMinimumSize(200, 130)
 
         # self.feature_setup_widget.hide()
         self.setup_frame.hide()
@@ -386,7 +386,7 @@ class Window(QWidget):
         self.refresh_visible(True)
         self.setup_frame.show()
 
-        self.setMinimumSize(200, 100)
+        self.setMinimumSize(200, 130)
 
     def setupUpdate(self):
         if (self.setup_frame.isVisible()):
@@ -398,7 +398,7 @@ class Window(QWidget):
     def main(self):
         print("Main")
 
-        self.setMinimumSize(200, 100)
+        self.setMinimumSize(200, 130)
         self.setupUpdate()
 
         self.refresh_visible(False)
@@ -425,8 +425,14 @@ class Window(QWidget):
         self.refreshPressed()
 
     def refreshPressed(self):
-        print("refresh")
-        self.app.monitors._calibrations.loadYaml()
+        QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
+        print("detect")
+        self.feature_setup_widget.clear()
+        self.app.detect()
+        self.setup()
+        self.feature_setup_widget.set_infos(self.app.monitors)
+        self.feature_setup_widget.init()
+        QApplication.restoreOverrideCursor()
 
     def position_show(self):
         print("position_show")
@@ -652,6 +658,10 @@ class FeatureSetupWidget(QWidget):
         self.feature = self.features.get_next(None)
         self.set_feature(self.feature)
 
+    def clear(self):
+        while(self.infos.count() > 0):
+            self.infos.removeTab(0)
+
     def value_change(self):
         value = self.slider.value()
         print('FeatureSetupWidget {} value change {}'.format(
@@ -717,6 +727,7 @@ class FeatureSetupWidget(QWidget):
 
     def set_infos(self, monitors):
         self.monitors = monitors
+
         while(self.infos.count() > 0):
             self.infos.removeTab(0)
 
@@ -800,7 +811,7 @@ class FeatureSetupWidget(QWidget):
         while (monitor is not None):
             if (monitor._monitor.contrast is not None):
 
-                type = Display.Display.BRIGHTNESS
+                type = Display.Display.CONTRAST
                 calibration_scaler = monitor._calibration.get(type)
 
                 if (calibration_scaler is not None):

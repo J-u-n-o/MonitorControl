@@ -295,6 +295,16 @@ class Application(SingleApplication.SingleApplication):
         if (self.monitors is not None):
             self.monitors.remove_displays()
 
+    def detect(self):
+        print("Application detect")
+
+        if (self.observe_timer is not None):
+            self.observe_timer.cancel()
+        if (self.monitors is not None):
+            self.monitors.remove_displays()
+
+        self.monitors_start()
+
     def monitors_start(self):
         print("Application monitors_start")
         self.detect_monitors()
