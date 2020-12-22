@@ -124,7 +124,11 @@ class IdentifyWindow(QDialog):
         if (self.restore is not None):
             self.restore(self)
 
+        print(' close {}'.format(self.title))
+
         self.close()
+        # close seems not to destroy the QDialog, so do it ourself
+        self.destroy()
 
 
 def signal_handler(sig, frame):
