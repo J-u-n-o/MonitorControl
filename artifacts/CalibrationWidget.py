@@ -19,7 +19,7 @@ def IntSeries(dataSeries):
     return dataSeries
 
 
-def FixSeries(dataSeries):
+def fix_series(dataSeries):
 
     IntSeries(dataSeries)
 
@@ -36,8 +36,8 @@ def FixSeries(dataSeries):
     return dataSeries
 
 
-def FixSeriesEnd(dataSeries):
-    FixSeries(dataSeries)
+def fix_series_end(dataSeries):
+    fix_series(dataSeries)
     l = len(dataSeries)
     if (l > 0):
         dataSeries[0] = 0
@@ -46,18 +46,18 @@ def FixSeriesEnd(dataSeries):
     return dataSeries
 
 
-def FixXY(x, y):
+def fix_x_y(x, y):
     l = min(len(x), len(y))
     x = x[:l]
     y = y[:l]
-    x = FixSeriesEnd(x)
-    y = FixSeries(y)
+    x = fix_series_end(x)
+    y = fix_series(y)
 
     return x, y
 
 
-def FixAndCleanXY(x, y):
-    x, y = FixXY(x, y)
+def fix_and_clean_x_y(x, y):
+    x, y = fix_x_y(x, y)
 
     i = 1
     d = 0.01
@@ -71,9 +71,12 @@ def FixAndCleanXY(x, y):
     return x, y
 
 
-def AddXY(x, y, xpoint, ypoint):
+def add_x_y(x, y, xpoint, ypoint):
     index = None
-    x, y = FixAndCleanXY(x, y)
+    xpoint = int(xpoint)
+    ypoint = int(ypoint)
+
+    x, y = fix_and_clean_x_y(x, y)
 
     if (xpoint > 0) and (xpoint < 100) and (ypoint > 0) and (ypoint < 100):
         l = len(x)
@@ -84,7 +87,7 @@ def AddXY(x, y, xpoint, ypoint):
                 ypoint = min(ypoint, y[i])
                 ypoint = max(ypoint, y[i-1])
                 y.insert(i, ypoint)
-                x, y = FixXY(x, y)
+                x, y = fix_x_y(x, y)
                 index = i
                 break
             else:
@@ -93,7 +96,7 @@ def AddXY(x, y, xpoint, ypoint):
     return x, y, index
 
 
-def ToXYPoints(dataSeriesX, dataSeriesY):
+def to_x_y_points(dataSeriesX, dataSeriesY):
     points = []
     l = min(len(dataSeriesX), len(dataSeriesY))
     i = 0
@@ -159,7 +162,7 @@ class CalibrationData(pyqtgraph.PlotDataItem):
             pos = ev.buttonDownPos()
             pts = self.scatter.pointsAt(pos)
             if len(pts) == 0:
-                self.datax, self.datay, index = AddXY(
+                self.datax, self.datay, index = add_x_y(
                     self.datax, self.datay, pos.x(), pos.y())
                 if (index is None):
                     ev.ignore()
@@ -170,11 +173,11 @@ class CalibrationData(pyqtgraph.PlotDataItem):
                 self.dragPoint = pts[0]
         elif ev.isFinish():
             self.dragPoint = None
-            self.datax, self.datay = FixAndCleanXY(self.datax, self.datay)
+            self.datax, self.datay = fix_and_clean_x_y(self.datax, self.datay)
             self.updateGraph()
             if (self.callback is not None):
                 self.callback(self.callback_data,
-                              ToXYPoints(self.datax, self.datay))
+                              to_x_y_points(self.datax, self.datay))
             return
         else:
             None
@@ -239,7 +242,7 @@ class CalibrationWidget(pyqtgraph.PlotWidget):
             x.append(data[0])
             y.append(data[1])
 
-        x, y = FixXY(x, y)
+        x, y = fix_x_y(x, y)
 
         # plot data: x, y values
         # self.plot(hour, temperature)
