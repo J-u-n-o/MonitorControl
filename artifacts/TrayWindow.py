@@ -41,7 +41,7 @@ class Window(QWidget):
 
         self.app = app
 
-        self.window_size = QtCore.QSize(400, 200)
+        self.window_size = QtCore.QSize(400, 250)
         self.window_size_offset = QtCore.QSize(0, 150)
         self.window_position = QtCore.QPoint(0, 0)
         self.window_position_offset = QtCore.QPoint(0, 0)
@@ -313,7 +313,7 @@ class Window(QWidget):
 
         self.main()
 
-        self.setFixedSize(400, 150)
+        self.setFixedSize(400, 250)
 
     def labels_set_visible(self, visible):
         for label in self.labels:
@@ -634,6 +634,85 @@ class FeatureSetupWidget(QWidget):
         self.calibrations.addTab(self.calibration1, "1: CMN")
         self.calibrations.addTab(self.calibration2, "2: HPN")
 
+        self.tab_style_options = QtGui.QStyleOptionTabWidgetFrame()
+        # self.calibrations.initStyleOption(self.tab_style_options)
+        self.tab_style_options.initFrom(self.calibrations)
+        print("TabColor Window        {}".format(
+            self.tab_style_options.palette.color(QtGui.QPalette.Window).name()))
+        print("TabColor Base          {}".format(
+            self.tab_style_options.palette.color(QtGui.QPalette.Base).name()))
+        print("TabColor AlternateBase {}".format(
+            self.tab_style_options.palette.color(QtGui.QPalette.AlternateBase).name()))
+        print("TabColor Button        {}".format(
+            self.tab_style_options.palette.color(QtGui.QPalette.Button).name()))
+        print("TabColor Mid           {}".format(
+            self.tab_style_options.palette.color(QtGui.QPalette.Mid).name()))
+        print("TabColor Midlight      {}".format(
+            self.tab_style_options.palette.color(QtGui.QPalette.Midlight).name()))
+        print("TabColor Light         {}".format(
+            self.tab_style_options.palette.color(QtGui.QPalette.Light).name()))
+        print("TabColor Highlight     {}".format(
+            self.tab_style_options.palette.color(QtGui.QPalette.Highlight).name()))
+
+        self.tabbar_style_options = QtGui.QStyleOptionTab()
+        # self.calibrations.tabBar().initStyleOption(self.tabbar_style_options, 0)
+        self.tabbar_style_options.initFrom(self.calibrations.tabBar())
+        print("TabbarColor Window        {}".format(
+            self.tabbar_style_options.palette.color(QtGui.QPalette.Window).name()))
+        print("TabbarColor Base          {}".format(
+            self.tabbar_style_options.palette.color(QtGui.QPalette.Base).name()))
+        print("TabbarColor AlternateBase {}".format(
+            self.tabbar_style_options.palette.color(QtGui.QPalette.AlternateBase).name()))
+        print("TabbarColor Button        {}".format(
+            self.tabbar_style_options.palette.color(QtGui.QPalette.Button).name()))
+        print("TabbarColor Mid           {}".format(
+            self.tabbar_style_options.palette.color(QtGui.QPalette.Mid).name()))
+        print("TabbarColor Midlight      {}".format(
+            self.tabbar_style_options.palette.color(QtGui.QPalette.Midlight).name()))
+        print("TabbarColor Light         {}".format(
+            self.tabbar_style_options.palette.color(QtGui.QPalette.Light).name()))
+        print("TabbarColor Highlight     {}".format(
+            self.tabbar_style_options.palette.color(QtGui.QPalette.Highlight).name()))
+
+        groupbox = QtGui.QGroupBox()
+        self.groupbox_style_options = QtGui.QStyleOptionGroupBox()
+        groupbox.initStyleOption(self.groupbox_style_options)
+        # self.groupbox_style_options.initFrom(groupbox)
+        print("GroupBox Window        {}".format(
+            self.groupbox_style_options.palette.color(QtGui.QPalette.Window).name()))
+        print("GroupBox Base          {}".format(
+            self.groupbox_style_options.palette.color(QtGui.QPalette.Base).name()))
+        print("GroupBox AlternateBase {}".format(
+            self.groupbox_style_options.palette.color(QtGui.QPalette.AlternateBase).name()))
+        print("GroupBox Button        {}".format(
+            self.groupbox_style_options.palette.color(QtGui.QPalette.Button).name()))
+        print("GroupBox Mid           {}".format(
+            self.groupbox_style_options.palette.color(QtGui.QPalette.Mid).name()))
+        print("GroupBox Midlight      {}".format(
+            self.groupbox_style_options.palette.color(QtGui.QPalette.Midlight).name()))
+        print("GroupBox Light         {}".format(
+            self.groupbox_style_options.palette.color(QtGui.QPalette.Light).name()))
+        print("GroupBox Highlight     {}".format(
+            self.groupbox_style_options.palette.color(QtGui.QPalette.Highlight).name()))
+
+        r = float(self.groupbox_style_options.palette.color(
+            QtGui.QPalette.Button).redF())
+        print("tab_base_color        r  {}".format(r))
+
+        r += (0.5 * float(self.groupbox_style_options.palette.color(QtGui.QPalette.Base).redF()))
+        g = float(self.groupbox_style_options.palette.color(
+            QtGui.QPalette.Button).greenF())
+        g += (0.5 * float(self.groupbox_style_options.palette.color(QtGui.QPalette.Base).greenF()))
+        b = float(self.groupbox_style_options.palette.color(
+            QtGui.QPalette.Button).blueF())
+        b += (0.5 * float(self.groupbox_style_options.palette.color(QtGui.QPalette.Base).blueF()))
+
+        print("tab_base_color        rgb {} {} {}".format(r, g, b))
+        self.tab_base_color = QtGui.QColor(r*255, g*255, b*255)
+        print("tab_base_color          {}".format(
+            self.tab_base_color.name()))
+        # sys.exit()
+
         # Create first tab
         self.calibration1.layout = QVBoxLayout()
         self.pushButton1 = QPushButton("PySide2 button", self)
@@ -790,14 +869,14 @@ class FeatureSetupWidget(QWidget):
                 calibration_scaler = monitor._calibration.get(type)
                 if (calibration_scaler is not None):
 
-                    back_color = self.calibrations.palette().color(QtGui.QPalette.Base).name()
-                    text_color = self.calibrations.palette().color(QtGui.QPalette.WindowText).name()
+                    back_color = self.calibrations.palette().color(QtGui.QPalette.Base)
+                    text_color = self.calibrations.palette().color(QtGui.QPalette.WindowText)
                     line_color = Application.Application.getAccentColor()
 
                     calibration_widget = CalibrationWidget.CalibrationWidget(self,
                                                                              calibration_scaler._scaling, self.update_cal_data,
                                                                              [monitor._monitor._device_name, type],
-                                                                             back_color, text_color, line_color)
+                                                                             self.tab_base_color, text_color, line_color)
 
                     self.calibrations.addTab(
                         calibration_widget, tab_name(index, monitor._monitor.info))
@@ -819,14 +898,14 @@ class FeatureSetupWidget(QWidget):
 
                 if (calibration_scaler is not None):
 
-                    back_color = self.calibrations.palette().color(QtGui.QPalette.Base).name()
-                    text_color = self.calibrations.palette().color(QtGui.QPalette.WindowText).name()
+                    back_color = self.calibrations.palette().color(QtGui.QPalette.Base)
+                    text_color = self.calibrations.palette().color(QtGui.QPalette.WindowText)
                     line_color = Application.Application.getAccentColor()
 
                     calibration_widget = CalibrationWidget.CalibrationWidget(self,
                                                                              calibration_scaler._scaling, self.update_cal_data,
                                                                              [monitor._monitor._device_name, type],
-                                                                             back_color, text_color, line_color)
+                                                                             self.tab_base_color, text_color, line_color)
 
                     self.calibrations.addTab(
                         calibration_widget, tab_name(index, monitor._monitor.info))
