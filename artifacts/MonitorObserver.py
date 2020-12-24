@@ -97,6 +97,8 @@ class Monitors:
 
     def add_observer(self, observer):
         self._monitor_observers.append(observer)
+        if (len(self._monitor_observers) > 4):
+            sys.exit()
 
     def tick(self):
         for _monitor_observer in self._monitor_observers:
@@ -141,7 +143,7 @@ class MonitorObserver:
                 brightness)
             print('  update brightness {}'.format(brightness, new_brightness))
             self._monitor_observers.set_brightness(new_brightness, self)
-            self._brightness = new_brightness
+            self._brightness = self._monitor.brightness
 
         contrast = self._monitor.contrast
         # print(' tick {} contrast {} =?= {}'.format(
@@ -151,7 +153,7 @@ class MonitorObserver:
                 contrast)
             print('  update contrast {}'.format(contrast, new_contrast))
             self._monitor_observers.set_contrast(new_contrast, self)
-            self._contrast = new_contrast
+            self._contrast = self._monitor.contrast
 
     def set_brightness(self, brightness):
         if (self._calibration.get(Display.Display.BRIGHTNESS) is None):

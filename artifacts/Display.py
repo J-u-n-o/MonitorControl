@@ -261,15 +261,14 @@ class DisplayWmi(Display):
     @brightness.setter
     def brightness(self, value):
         # get first before setting so level are obtained
-        b = self.brightness
+        b_prev = self.brightness
         for obj in wmi.WMI(namespace='wmi').WmiMonitorBrightnessMethods():
             if (self._match_address(obj.InstanceName)):
                 desired_brightness = self._brightness_levels._get(value)
                 obj.WmiSetBrightness(desired_brightness, 0)
-                b = self.brightness
 
-                print('WMI {} : brightness {} -> {} : {}'.format(self._id,
-                                                                 value, desired_brightness, b))
+                print('      WMI set brightness for {} : from {} to {} -> {}'.format(self._id, b_prev,
+                                                                                     value, desired_brightness))
 
     @property
     def contrast(self):
@@ -279,8 +278,8 @@ class DisplayWmi(Display):
     @contrast.setter
     def contrast(self, value):
         # get first before setting so level are obtained
-        print('WMI {} : contrast {} not supported'.format(self._id,
-                                                          value))
+        print('      WMI set contrast for {} : {} not supported'.format(self._id,
+                                                                        value))
 
 
 def main():
