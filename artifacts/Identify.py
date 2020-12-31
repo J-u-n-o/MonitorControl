@@ -9,7 +9,6 @@ except Exception as err:
 import datetime
 import ctypes
 from PySide2.QtCore import QAbstractNativeEventFilter
-from pyqtgraph.Qt import QtCore, QtGui
 import sys
 import threading
 import pythoncom
@@ -29,8 +28,6 @@ import os
 import MonitorObserver
 import MonitorDetect
 import Application
-
-import pyqtgraph
 
 import signal
 import Identify

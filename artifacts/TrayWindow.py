@@ -1,7 +1,6 @@
 # pythonprogramminglanguage.com
 import datetime
 import ctypes
-from pyqtgraph.Qt import QtCore, QtGui
 import sys
 
 from PySide2.QtCore import QAbstractNativeEventFilter, Qt
@@ -24,10 +23,6 @@ import Application
 import Display
 import Handles
 import time
-
-import pyqtgraph
-pyqtgraph.setConfigOptions(antialias=True)
-
 
 class Window(QWidget):
     def __init__(self, app, parent=None):
@@ -634,7 +629,7 @@ class FeatureSetupWidget(QWidget):
         self.calibrations.addTab(self.calibration1, "1: CMN")
         self.calibrations.addTab(self.calibration2, "2: HPN")
 
-        self.tab_style_options = QtGui.QStyleOptionTabWidgetFrame()
+        self.tab_style_options = QtWidgets.QStyleOptionTabWidgetFrame()
         # self.calibrations.initStyleOption(self.tab_style_options)
         self.tab_style_options.initFrom(self.calibrations)
         print("TabColor Window        {}".format(
@@ -654,7 +649,7 @@ class FeatureSetupWidget(QWidget):
         print("TabColor Highlight     {}".format(
             self.tab_style_options.palette.color(QtGui.QPalette.Highlight).name()))
 
-        self.tabbar_style_options = QtGui.QStyleOptionTab()
+        self.tabbar_style_options = QtWidgets.QStyleOptionTab()
         # self.calibrations.tabBar().initStyleOption(self.tabbar_style_options, 0)
         self.tabbar_style_options.initFrom(self.calibrations.tabBar())
         print("TabbarColor Window        {}".format(
@@ -674,8 +669,8 @@ class FeatureSetupWidget(QWidget):
         print("TabbarColor Highlight     {}".format(
             self.tabbar_style_options.palette.color(QtGui.QPalette.Highlight).name()))
 
-        groupbox = QtGui.QGroupBox()
-        self.groupbox_style_options = QtGui.QStyleOptionGroupBox()
+        groupbox = QtWidgets.QGroupBox()
+        self.groupbox_style_options = QtWidgets.QStyleOptionGroupBox()
         groupbox.initStyleOption(self.groupbox_style_options)
         # self.groupbox_style_options.initFrom(groupbox)
         print("GroupBox Window        {}".format(
