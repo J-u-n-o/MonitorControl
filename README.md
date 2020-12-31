@@ -14,6 +14,21 @@ Also it has sliders to control the contrast and brightness by your mouse for all
 To prevent brightness differences there is a per monitor calibration for brightness and contrast in the setup tab of the window. This to make sure e.g. 50% brightness is equal for all monitors.
 
 
+Required python packages:
+- pywin32 (for pythoncom)
+- shiboken2
+- pyside2
+- qdarkstyle
+- wmi
+- pyyaml (for yaml)
+- psutil
+- matplotlib
+
+In case of error (numpy is installed by matplotlib):
+'Fails to pass a sanity check due to a bug in the windows runtime. See this issue for more information: https://tinyurl.com/y3dm3h86'
+Update numpy from 1.19.x to newer/lastest (see https://libraries.io/pypi/numpy) using:
+pip install numpy==1.20.0rc2 -U
+
 Note:
 - Not all monitors support changing contrast, at least access was not present for my laptop monitor.
 - It requires an external monitor having DDC/CI support and have this enabled.
