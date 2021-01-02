@@ -1,6 +1,11 @@
 # MonitorControl
 Control and have synced your monitor brightness and contrast controls
 
+![main](./README/main.png)
+
+![info](./README/info.png)
+![setup](./README/setup.png)
+
 A (small) python utility for windows 10 detecting your attached internal/laptop and external monitors, and to control and sync their brightness and contrasts. 
 This requires an external monitor having DDC/CI support and have this enabled.
 
